@@ -14,6 +14,13 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        // 10.0.2.2 = localhost del host desde el emulador Android
+        buildConfigField("String", "TURNOS_BASE_URL", "\"http://10.0.2.2:8082\"")
+        buildConfigField("String", "CATALOGO_BASE_URL", "\"http://10.0.2.2:8081\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -39,4 +46,5 @@ android {
 dependencies {
     implementation(project(":shared"))
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.security.crypto)
 }

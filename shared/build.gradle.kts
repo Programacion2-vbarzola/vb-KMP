@@ -46,6 +46,8 @@ kotlin {
             implementation(libs.ktor.client.android)
             // Driver SQLDelight para Android (usa SQLite nativo)
             implementation(libs.sqldelight.android.driver)
+            // Almacenamiento seguro del JWT (Android Keystore + EncryptedSharedPreferences)
+            implementation(libs.androidx.security.crypto)
         }
 
         commonTest.dependencies {
