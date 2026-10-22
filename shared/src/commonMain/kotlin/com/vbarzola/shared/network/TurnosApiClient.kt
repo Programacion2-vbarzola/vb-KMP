@@ -3,10 +3,10 @@ package com.vbarzola.shared.network
 import com.vbarzola.shared.auth.TokenStorage
 import com.vbarzola.shared.network.dto.AccountDto
 import com.vbarzola.shared.network.dto.LoginRequest
-import com.vbarzola.shared.network.dto.LoginResponse
 import com.vbarzola.shared.network.dto.RegisterRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.statement.bodyAsText
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -21,6 +21,8 @@ import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 class TurnosApiClient(
     baseUrl: String,
@@ -44,7 +46,10 @@ class TurnosApiClient(
             setBody(LoginRequest(username, password))
         }
         if (!response.status.isSuccess()) error("Login failed: ${response.status.value}")
-        response.body<LoginResponse>().idToken
+        val raw = response.bodyAsText()
+        val json = Json { ignoreUnknownKeys = true }
+        json.parseToJsonElement(raw).jsonObject["id_token"]?.jsonPrimitive?.content
+            ?: error("Respuesta inesperada del servidor: $raw")
     }
 
     suspend fun register(request: RegisterRequest): Result<Unit> = runCatching {

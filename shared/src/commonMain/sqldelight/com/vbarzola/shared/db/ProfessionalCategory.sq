@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS professional_category (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    enabled INTEGER NOT NULL DEFAULT 1,
+    updated_at TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM professional_category ORDER BY name ASC;
+
+selectEnabled:
+SELECT * FROM professional_category WHERE enabled = 1 ORDER BY name ASC;
+
+upsert:
+INSERT OR REPLACE INTO professional_category(id, name, description, enabled, updated_at)
+VALUES (:id, :name, :description, :enabled, :updatedAt);
+
+deleteAll:
+DELETE FROM professional_category;

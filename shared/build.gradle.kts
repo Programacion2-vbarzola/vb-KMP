@@ -33,6 +33,9 @@ kotlin {
             // Serialización JSON
             implementation(libs.kotlinx.serialization.json)
 
+            // Fecha y hora multiplataforma
+            implementation(libs.kotlinx.datetime)
+
             // Coroutines — concurrencia y flujos reactivos
             implementation(libs.kotlinx.coroutines.core)
 
